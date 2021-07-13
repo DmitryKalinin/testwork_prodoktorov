@@ -1,5 +1,6 @@
 let catalog = document.getElementById("catalog");
 let favorite = document.getElementById("favorite");
+let popup = document.getElementById("popup");
 const show = async() => {
     let a = await fetch("https://json.medrating.org/users/");
     let response = await a.json();
@@ -22,7 +23,7 @@ const show = async() => {
         }
     })
 }
-var showAlbums = async(catalog, element, id) => {
+const showAlbums = async(catalog, element, id) => {
     let response = await fetch(`https://json.medrating.org/albums?userId=${id}`);
     let albums = await response.json();
     console.log('КЛИК ПО ИМЕНИ');
@@ -38,7 +39,7 @@ var showAlbums = async(catalog, element, id) => {
     })
 
 }
-let showImage = async(catalog, element, id) => {
+const showImage = async(catalog, element, id) => {
 
     let response = await fetch(`https://json.medrating.org/photos?albumId=${id}`);
     let images = await response.json();
@@ -49,7 +50,62 @@ let showImage = async(catalog, element, id) => {
         catalogImage.classList.add("catalog-image");
         catalog.appendChild(catalogImage);
         let star = document.createElement("img");
-        star.setAttribute("src", "./star-svg.svg");
+        if (localStorage.getItem(`${image.id}`) === null) {
+            star.setAttribute("src", "./star-svg.svg");
+        } else {
+            star.setAttribute("src", "./star-enable.svg");
+        }
+        star.setAttribute("width", "15px");
+        star.classList.add("star");
+        let img = document.createElement("img");
+        img.setAttribute("src", image.url);
+        img.setAttribute("width", "150px");
+        catalogImage.appendChild(star)
+        catalogImage.appendChild(img)
+
+        img.addEventListener("click", () => {
+            console.log("КЛИК ПО КАРТИНКЕ");
+            popup.innerHTML = "";
+            popup.style.display = "block";
+            let img = document.createElement('img');
+            img.setAttribute("src", image.url);
+            popup.appendChild(img);
+            popup.style.display = "block";
+            popup.addEventListener("click", () => {
+                popup.style.display = "none";
+            })
+        })
+        img.addEventListener("mousemove", () => {
+            console.log("НАВЕДЕНИЕ НА КАРТИНКУ");
+
+        })
+        star.addEventListener("click", () => {
+            console.log("ДОБАВЛЕНИЕ КАРТИНКИ В LOCALSTORAGE");
+            if (localStorage.getItem(`${image.id}`) === null) {
+                localStorage.setItem(`${image.id}`, JSON.stringify(image));
+                star.setAttribute("src", "./star-enable.svg");
+            } else {
+                localStorage.removeItem(`${image.id}`);
+                star.setAttribute("src", "./star-svg.svg");
+            }
+        })
+    })
+}
+
+const showFavorite = () => {
+    let keys = Object.keys(localStorage);
+    keys.map(item => {
+        let image = JSON.parse(localStorage.getItem(item))
+        console.log(typeof image);
+        let catalogImage = document.createElement('div');
+        catalogImage.classList.add("catalog-image");
+        favorite.appendChild(catalogImage);
+        let star = document.createElement("img");
+        if (localStorage.getItem(`${image.id}`) === null) {
+            star.setAttribute("src", "./star-svg.svg");
+        } else {
+            star.setAttribute("src", "./star-enable.svg");
+        }
         star.setAttribute("width", "15px");
         star.classList.add("star");
         let img = document.createElement("img");
@@ -70,10 +126,18 @@ let showImage = async(catalog, element, id) => {
         })
     })
 }
+
 document.getElementById("menu1").addEventListener("click", async() => {
     favorite.style.display = "none";
     catalog.style.display = "block"
     catalog.innerHTML = "";
     show();
+
+})
+document.getElementById("menu2").addEventListener("click", async() => {
+    favorite.style.display = "block";
+    catalog.style.display = "none"
+    favorite.innerHTML = "";
+    showFavorite();
 
 })
