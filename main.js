@@ -2,57 +2,35 @@ let catalog = document.getElementById("catalog");
 let favorite = document.getElementById("favorite");
 let popup = document.getElementById("popup");
 
-
 const mainfunc = async(url, func) => {
     let data;
     let response = await fetch(url);
-    let res = await response.json().then(res => { data = res });
+    await response.json().then(res => { data = res });
     func(data);
 }
 
+
 const main = () => {
     mainfunc("https://json.medrating.org/users/", show)
+
 }
 const show = (data) => {
-        data.map(el => {
-            //console.log(el);
+    data.map(el => {
+        if (el.name && el.name !== undefined) {
+            let catalogNewName = document.createElement('div');
+            catalogNewName.classList.add("catalog-name");
+            catalog.appendChild(catalogNewName);
+            let newName = document.createElement("h2");
+            newName.textContent = el.name;
+            catalogNewName.appendChild(newName)
 
-            if (el.name !== undefined) {
-                let catalogNewName = document.createElement('div');
-                catalogNewName.classList.add("catalog-name");
-                catalog.appendChild(catalogNewName);
-                let newName = document.createElement("h2");
-                newName.textContent = el.name;
-                catalogNewName.appendChild(newName)
+            newName.addEventListener("click", () => {
+                showAlbums(catalogNewName, newName, el.id);
+            });
+        }
+    })
+}
 
-                newName.addEventListener("click", () => {
-                    showAlbums(catalogNewName, newName, el.id);
-                });
-            }
-        })
-    }
-    /*const show = async() => {
-        let a = await fetch("https://json.medrating.org/users/");
-        let response = await a.json();
-        //console.log(response);
-        console.log('КЛИК ПО КАТАЛОГУ');
-        response.map(el => {
-            //console.log(el);
-
-            if (el.name !== undefined) {
-                let catalogNewName = document.createElement('div');
-                catalogNewName.classList.add("catalog-name");
-                catalog.appendChild(catalogNewName);
-                let newName = document.createElement("h2");
-                newName.textContent = el.name;
-                catalogNewName.appendChild(newName)
-
-                newName.addEventListener("click", () => {
-                    showAlbums(catalogNewName, newName, el.id);
-                });
-            }
-        })
-    }*/
 const showAlbums = async(catalog, element, id) => {
     let response = await fetch(`https://json.medrating.org/albums?userId=${id}`);
     let albums = await response.json();
@@ -123,6 +101,7 @@ const showImage = async(catalog, element, id) => {
 }
 
 const showFavorite = () => {
+    favorite.innerHTML = '';
     let keys = Object.keys(localStorage);
     keys.map(item => {
         let image = JSON.parse(localStorage.getItem(item))
@@ -153,6 +132,7 @@ const showFavorite = () => {
                 localStorage.removeItem(`${image.id}`);
                 star.setAttribute("src", "./star-svg.svg");
             }
+            showFavorite();
         })
     })
 }
