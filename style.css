@@ -6,9 +6,9 @@
     background-color: #bbb;
 }
 
-.catalog-image {
+.image-item {
     display: flex;
-    align-items: flex-start;
+    align-items: start;
 }
 
 .star {
