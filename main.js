@@ -1,28 +1,58 @@
 let catalog = document.getElementById("catalog");
 let favorite = document.getElementById("favorite");
 let popup = document.getElementById("popup");
-const show = async() => {
-    let a = await fetch("https://json.medrating.org/users/");
-    let response = await a.json();
-    //console.log(response);
-    console.log('КЛИК ПО КАТАЛОГУ');
-    response.map(el => {
-        //console.log(el);
 
-        if (el.name !== undefined) {
-            let catalogNewName = document.createElement('div');
-            catalogNewName.classList.add("catalog-name");
-            catalog.appendChild(catalogNewName);
-            let newName = document.createElement("h2");
-            newName.textContent = el.name;
-            catalogNewName.appendChild(newName)
 
-            newName.addEventListener("click", () => {
-                showAlbums(catalogNewName, newName, el.id);
-            });
-        }
-    })
+const mainfunc = async(url, func) => {
+    let data;
+    let response = await fetch(url);
+    let res = await response.json().then(res => { data = res });
+    func(data);
 }
+
+const main = () => {
+    mainfunc("https://json.medrating.org/users/", show)
+}
+const show = (data) => {
+        data.map(el => {
+            //console.log(el);
+
+            if (el.name !== undefined) {
+                let catalogNewName = document.createElement('div');
+                catalogNewName.classList.add("catalog-name");
+                catalog.appendChild(catalogNewName);
+                let newName = document.createElement("h2");
+                newName.textContent = el.name;
+                catalogNewName.appendChild(newName)
+
+                newName.addEventListener("click", () => {
+                    showAlbums(catalogNewName, newName, el.id);
+                });
+            }
+        })
+    }
+    /*const show = async() => {
+        let a = await fetch("https://json.medrating.org/users/");
+        let response = await a.json();
+        //console.log(response);
+        console.log('КЛИК ПО КАТАЛОГУ');
+        response.map(el => {
+            //console.log(el);
+
+            if (el.name !== undefined) {
+                let catalogNewName = document.createElement('div');
+                catalogNewName.classList.add("catalog-name");
+                catalog.appendChild(catalogNewName);
+                let newName = document.createElement("h2");
+                newName.textContent = el.name;
+                catalogNewName.appendChild(newName)
+
+                newName.addEventListener("click", () => {
+                    showAlbums(catalogNewName, newName, el.id);
+                });
+            }
+        })
+    }*/
 const showAlbums = async(catalog, element, id) => {
     let response = await fetch(`https://json.medrating.org/albums?userId=${id}`);
     let albums = await response.json();
@@ -131,7 +161,7 @@ document.getElementById("menu1").addEventListener("click", async() => {
     favorite.style.display = "none";
     catalog.style.display = "block"
     catalog.innerHTML = "";
-    show();
+    main();
 
 })
 document.getElementById("menu2").addEventListener("click", async() => {
