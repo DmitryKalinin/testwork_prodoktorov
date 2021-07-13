@@ -1,5 +1,5 @@
 let catalog = document.getElementById("catalog");
-let star = document.getElementById("star");
+let favorite = document.getElementById("favorite");
 const show = async() => {
     let a = await fetch("https://json.medrating.org/users/");
     let response = await a.json();
@@ -39,6 +39,7 @@ var showAlbums = async(catalog, element, id) => {
 
 }
 let showImage = async(catalog, element, id) => {
+
     let response = await fetch(`https://json.medrating.org/photos?albumId=${id}`);
     let images = await response.json();
     //console.log(images);
@@ -47,13 +48,30 @@ let showImage = async(catalog, element, id) => {
         let catalogImage = document.createElement('div');
         catalogImage.classList.add("catalog-image");
         catalog.appendChild(catalogImage);
+        let star = document.createElement("img");
+        star.setAttribute("src", "./star-svg.svg");
+        star.setAttribute("width", "15px");
+        star.classList.add("star");
         let img = document.createElement("img");
         img.setAttribute("src", image.url);
+        img.setAttribute("width", "150px");
+        catalogImage.appendChild(star)
         catalogImage.appendChild(img)
+
+        star.addEventListener("click", () => {
+            console.log("ДОБАВЛЕНИЕ КАРТИНКИ В LOCALSTORAGE");
+            if (localStorage.getItem(`${image.id}`) === null) {
+                localStorage.setItem(`${image.id}`, JSON.stringify(image));
+                star.setAttribute("src", "./star-enable.svg");
+            } else {
+                localStorage.removeItem(`${image.id}`);
+                star.setAttribute("src", "./star-svg.svg");
+            }
+        })
     })
 }
 document.getElementById("menu1").addEventListener("click", async() => {
-    star.style.display = "none";
+    favorite.style.display = "none";
     catalog.style.display = "block"
     catalog.innerHTML = "";
     show();

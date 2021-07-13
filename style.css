@@ -5,3 +5,16 @@
 .album-title {
     background-color: #bbb;
 }
+
+.catalog-image {
+    display: flex;
+    align-items: flex-start;
+}
+
+.star {
+    color: yellow
+}
+
+.popup {
+    display: none;
+}
