@@ -9,6 +9,9 @@
 .image-item {
     display: flex;
     align-items: start;
+    justify-content: center;
+    padding: 15px;
+    position: relative;
 }
 
 .star {
@@ -21,4 +24,20 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.popup-text {
+    display: none;
+    position: absolute;
+    bottom: -10px;
+    padding: 0 auto;
+    border-radius: 5px;
+    background-color: rgba(94, 94, 94, 0.1);
+}
+
+span,
+h2,
+h3,
+img {
+    cursor: pointer;
 }
