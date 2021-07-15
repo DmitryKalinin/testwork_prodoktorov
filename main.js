@@ -1,15 +1,14 @@
+import { API } from "./API.js"
 let catalog = document.getElementById("catalog");
 let favorite = document.getElementById("favorite");
 let popup = document.getElementById("popup");
 let hiddenState = {
-        catalog: false
-    }
-    //--Запуск процедуры отрисовки имен--//
+    catalog: false
+}
+let api = new API();
+//--Запуск процедуры отрисовки имен--//
 const main = async(url, func) => {
-    let data;
-    let response = await fetch("https://json.medrating.org/users/");
-    await response.json().then(res => { data = res });
-    show(data);
+    show(await api.getUsers());
 }
 
 //------  Блок создания элементов ------//
