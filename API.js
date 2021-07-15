@@ -1,4 +1,8 @@
 export class API {
+
+    getFavorite = Object.keys(localStorage);
+    getMenu = { menu1: "Каталог", menu2: "Избранное" };
+
     async getUsers() {
         let response = await fetch("https://json.medrating.org/users/");
         let json = response.ok ? await response.json() : "Ошибка HTTP: " + response.status;

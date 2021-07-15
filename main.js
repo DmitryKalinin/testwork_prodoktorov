@@ -1,4 +1,11 @@
-import { API } from "./API.js"
+import { API } from "./API.js";
+import { Menu } from "./components/Menu.js";
+const api = new API();
+const root = document.getElementById("root");
+
+const menu = new Menu(api.getMenu);
+menu.render(root);
+/*
 let catalog = document.getElementById("catalog");
 let favorite = document.getElementById("favorite");
 let popup = document.getElementById("popup");
@@ -88,9 +95,7 @@ const show = (data) => {
     }
     //--отрисовка названий альбомов, обработка клика и вызов отрисовки изображенеий--//
 const showAlbums = async(catalog, element, id) => {
-
-    let response = await fetch(`https://json.medrating.org/albums?userId=${id}`);
-    let albums = await response.json();
+    let albums = await api.getAlbums(id);
     let catalogAlbum = document.createElement('div');
     catalogAlbum.classList.add("catalog-album");
     catalog.appendChild(catalogAlbum);
@@ -116,9 +121,7 @@ const showAlbums = async(catalog, element, id) => {
 
 //--отрисовка изображений, обработки кликов по изображению и звезде--//
 const showImage = async(catalog, element, id) => {
-
-    let response = await fetch(`https://json.medrating.org/photos?albumId=${id}`);
-    let images = await response.json();
+    let images = await api.getImages(id);
     //console.log(images);
     console.log('КЛИК ПО АЛЬБОМУ ');
     let catalogImages = document.createElement('div');
@@ -187,4 +190,4 @@ document.getElementById("menu2").addEventListener("click", async() => {
     hiddenState.catalog = false;
     favorite.innerHTML = "";
     showFavorite();
-})
+})*/
