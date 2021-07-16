@@ -1,7 +1,17 @@
 export class API {
 
-    getFavorite = Object.keys(localStorage);
-    getMenu = { menu1: "Каталог", menu2: "Избранное" };
+    getFavorite() {
+        let response = [];
+        let keys = Object.keys(localStorage);
+        keys.map(item => {
+            response.push(JSON.parse(localStorage.getItem(item)))
+        })
+
+        return response;
+    }
+    getMenu() {
+        return { menu1: "Каталог", menu2: "Избранное" };
+    }
 
     async getUsers() {
         let response = await fetch("https://json.medrating.org/users/");

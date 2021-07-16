@@ -2,9 +2,21 @@ import { API } from "./API.js";
 import { Menu } from "./components/Menu.js";
 const api = new API();
 const root = document.getElementById("root");
-
-const menu = new Menu(api.getMenu);
+api.getFavorite()
+const menu = new Menu(api.getMenu());
 menu.render(root);
+
+
+
+
+
+
+
+
+
+
+
+
 /*
 let catalog = document.getElementById("catalog");
 let favorite = document.getElementById("favorite");
