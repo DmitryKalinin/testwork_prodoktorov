@@ -1,3 +1,4 @@
+//Класс блока альбомов
 import { General } from "./General.js"
 import { Images } from "./Images.js"
 export class Album extends General {

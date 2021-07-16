@@ -1,3 +1,4 @@
+//Класс api для загрузки данных
 export class API {
 
     getFavorite() {

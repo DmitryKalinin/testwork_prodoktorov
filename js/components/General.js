@@ -1,3 +1,6 @@
+//родительский класс для вложенных блоков, содержит общий конструктор,
+//методы очистки блока, сворачивания, создания элемента
+
 import { API } from "../API.js";
 const api = new API();
 export class General {
@@ -6,7 +9,11 @@ export class General {
         this.data = data;
         this.api = api;
     }
-
+    clearChildren(parent) {
+        for (let i = 1; i < parent.childNodes.length; i++) {
+            parent.childNodes[i].remove();
+        }
+    }
     generalCreateElement(type, className) {
         let element = document.createElement(type);
         element.classList.add(className);

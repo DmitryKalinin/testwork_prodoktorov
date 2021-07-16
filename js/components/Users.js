@@ -1,3 +1,4 @@
+//Класс блока пользователей
 import { General } from "./General.js";
 import { Album } from "./Album.js"
 

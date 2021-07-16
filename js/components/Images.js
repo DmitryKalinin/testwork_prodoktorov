@@ -1,3 +1,10 @@
+/*Класс блока с изображениями. 
+imageElement - создает изображение и добавляет обработчики
+starElement - создает звезду и обрабатывает нажатие
+popupText - появляющийся текст названия изображения
+showPopup - появление полноразмерного изображения
+addImagetoLocalStorage - добавляет/удаляет изображение из localStorage
+*/
 import { General } from "./General.js";
 
 export class Images extends General {
@@ -22,9 +29,9 @@ export class Images extends General {
     starElement = (image) => {
         let star = document.createElement("img");
         if (localStorage.getItem(`${image.id}`) === null) {
-            star.setAttribute("src", "./star-svg.svg");
+            star.setAttribute("src", "./src/star-svg.svg");
         } else {
-            star.setAttribute("src", "./star-enable.svg");
+            star.setAttribute("src", "./src/star-enable.svg");
         }
         star.setAttribute("width", "15px");
         star.classList.add("star");
@@ -56,10 +63,10 @@ export class Images extends General {
         console.log("ДОБАВЛЕНИЕ КАРТИНКИ В LOCALSTORAGE");
         if (localStorage.getItem(`${image.id}`) === null) {
             localStorage.setItem(`${image.id}`, JSON.stringify(image));
-            star.setAttribute("src", "./star-enable.svg");
+            star.setAttribute("src", "./src/star-enable.svg");
         } else {
             localStorage.removeItem(`${image.id}`);
-            star.setAttribute("src", "./star-svg.svg");
+            star.setAttribute("src", "./src/star-svg.svg");
         }
     }
     render(parent) {
